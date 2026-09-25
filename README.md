@@ -1,7 +1,8 @@
 # TISC 2026 Writeups
 
 > ctf skill issue? nah bro token issue
-> rented 16× 5090s to brute force JKU and still failed
+
+> and fun fact i rented 16× 5090s to brute force JKU and still failed
 
 **[Read the writeups → here](https://thetrustypwo.github.io/TISC26/)**
 
