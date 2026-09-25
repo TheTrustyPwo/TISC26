@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import entries from '../../data/generated.json';
+
+export function getStaticPaths() {
+  return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const previous = entries[entry.order - 2];
+const next = entries[entry.order];
+const route = (slug: string) => `${base}challenges/${slug}/`;
+---
+<BaseLayout title={entry.title} description={`Technical writeup and selected artifacts for ${entry.title}, a TISC 2026 challenge.`} currentSlug={entry.slug}>
+  <main id="main" class:list={['report-page', { 'is-special': entry.level === null }]}>
+    <header class="page-head report-head">
+      <p class="kicker">{entry.label}</p>
+      <h1>{entry.title}</h1>
+    </header>
+    <div class="report-layout">
+      {entry.headings.length > 2 && <nav class="toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <ol>{entry.headings.filter((heading) => heading.depth === 2).map((heading) => <li><a href={`#${heading.id}`}>{heading.title}</a></li>)}</ol>
+      </nav>}
+      {entry.headings.length > 2 && <details class="toc-mobile">
+        <summary>On this page <span aria-hidden="true">⌄</span></summary>
+        <nav aria-label="On this page"><ol>{entry.headings.filter((heading) => heading.depth === 2).map((heading) => <li><a href={`#${heading.id}`}>{heading.title}</a></li>)}</ol></nav>
+      </details>}
+      <article class="writeup" aria-label={`${entry.title} writeup`}>
+        <div class="markdown" set:html={entry.html} />
+        {entry.resources.length > 0 && <section class="resources" aria-labelledby="resources-heading">
+          <h2 id="resources-heading">Resources &amp; downloads</h2>
+          <p>Selected files referenced by or useful for reproducing this solve.</p>
+          <ul>{entry.resources.map((resource) => <li><a href={resource.href} download><span>{resource.label}</span><small>{resource.filename}</small></a></li>)}</ul>
+        </section>}
+        <nav class="report-pagination" aria-label="Other challenges">
+          {previous ? <a href={route(previous.slug)}><small>Previous challenge</small><span>{previous.title}</span></a> : <a href={base}><small>Overview</small><span>All challenges</span></a>}
+          {next && <a href={route(next.slug)}><small>Next challenge</small><span>{next.title}</span></a>}
+        </nav>
+      </article>
+    </div>
+  </main>
+</BaseLayout>
+<script>
+  window.addEventListener('message', (event) => {
+    if (event.data?.type !== 'tisc-explainer-height') return;
+    const frame = [...document.querySelectorAll<HTMLIFrameElement>('.explainer iframe')]
+      .find((item) => item.contentWindow === event.source);
+    const height = Number(event.data.height);
+    if (frame && Number.isFinite(height) && height >= 300 && height <= 10000) {
+      frame.style.height = `${height}px`;
+    }
+  });
+</script>

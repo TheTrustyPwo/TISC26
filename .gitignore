@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+output/
+src/data/generated.json
+public/media/
+public/downloads/
+public/explainers/
+*.log

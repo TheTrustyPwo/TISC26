@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+*.gif binary
+*.exe binary
+*.dll binary
+*.wasm binary
+*.bin binary
+omnitrix binary
+runner binary

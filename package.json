@@ -1,0 +1,22 @@
+{
+  "name": "tisc26-writeups",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:content": "node scripts/sync-content.mjs",
+    "prepare:content": "node scripts/prepare.mjs",
+    "build": "npm run prepare:content && astro build",
+    "check:built": "node scripts/check-built.mjs",
+    "dev": "npm run prepare:content && astro dev",
+    "preview": "astro preview",
+    "serve:built": "node scripts/serve-built.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.3.5",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.4",
+    "typescript": "^5.9.3"
+  }
+}

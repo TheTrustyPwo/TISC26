@@ -1,0 +1,14 @@
+{
+  "flag": "TISC{h1d3_1t_d33p_th3_w31ghts_d0nt_l13}",
+  "carrier": "model.layers.14.mlp.up_proj.weight",
+  "live_ids": [
+    125499,
+    130167,
+    142680,
+    151879,
+    151905
+  ],
+  "KM": "e0933b894d21ebaa2f0eb1e7eeee3a6d",
+  "wire": "864144d86e88f6c2a6ecfa3bb4f28c4f77d1e991f8e801aa91799e1c2a526111d3fda1c7af4fe70b738e2ea611aa422cf2334bb47a8558f3102d083853cc57ffa0782873b72ee32377a33b58",
+  "authenticated": true
+}
