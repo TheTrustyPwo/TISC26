@@ -22,7 +22,7 @@ BOT_HEX = (
 
 HTML = r'''<!doctype html>
 <meta charset="utf-8">
-<title>V46 instruction-accurate lattice simulator</title>
+<title>V46 Visualiser</title>
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; background: #10151c; color: #e6edf3; font: 14px system-ui, sans-serif; }
@@ -40,7 +40,7 @@ HTML = r'''<!doctype html>
   @media (max-width: 580px) { .processes { grid-template-columns: repeat(2, minmax(110px, 1fr)); } }
 </style>
 <main>
-  <h1>V46 instruction-accurate lattice</h1>
+  <h1>V46 Visualiser</h1>
   <canvas id="arena" width="128" height="128" aria-label="64 KiB arena, one pixel per four-byte word"></canvas>
   <div class="row">
     <button id="play">Play</button>

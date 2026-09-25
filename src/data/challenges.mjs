@@ -4,7 +4,7 @@ export const challenges = [
   {
     slug: 'capture-the-system', title: 'Capture the System', directory: 'Capture The System', level: null, placement: '1st place',
     resources: [['v46.hex', 'V46 bot'], ['v46_lattice_viewer.py', 'Lattice viewer source']],
-    explainer: { file: 'v46-lattice-viewer.html', title: 'V46 lattice simulator', before: 'how-v46-works' },
+    explainer: { file: 'v46-lattice-viewer.html', title: 'V46 Visualiser', before: 'how-v46-works' },
   },
   {
     slug: 'expcalibur', title: 'EXPcalibur', directory: 'EXPcalibur', level: null, placement: '3rd place',
