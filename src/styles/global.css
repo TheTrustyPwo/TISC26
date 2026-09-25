@@ -25,12 +25,12 @@ a:hover { text-decoration-thickness: 2px; }
 .site-shell { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: 100vh; }
 .route-rail { color: #e2eceb; background: var(--deep); }
 .rail-inner { position: sticky; top: 0; min-height: 100vh; max-height: 100vh; display: flex; flex-direction: column; padding: 30px 22px 22px; overflow: auto; scrollbar-color: #67828b transparent; }
-.brand { display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-size: 1.42rem; font-family: Bahnschrift, "Segoe UI", sans-serif; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
-.brand b { color: #bad4ea; font-weight: 500; }
-.brand small { display: block; margin-top: 4px; font-size: .72rem; font-weight: 500; letter-spacing: .02em; color: #b7cbc9; }
-.brand-type { display: block; font-size: 1.6rem; letter-spacing: -.055em; }
-.brand-type > span { color: #e7a35b; font-weight: 400; }
-.brand-type small { letter-spacing: .01em; }
+.brand, .mobile-brand { display: block; color: #fff; text-decoration: none; font-family: "Segoe UI", Aptos, system-ui, sans-serif; }
+.brand-title { display: block; white-space: nowrap; font-size: 1.24rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.2; }
+.brand-year { color: #e7a35b; }
+.brand-credit { display: block; margin-top: 7px; color: #b7cbc9; font-size: .82rem; font-weight: 400; line-height: 1.25; letter-spacing: 0; }
+.brand-credit strong { color: #e2eceb; font-weight: 700; }
+.brand:hover .brand-title, .mobile-brand:hover .brand-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .desktop-nav { margin-top: 50px; }
 .nav-label { margin: 0 0 14px 22px; color: #afc5c3; font-size: .77rem; font-weight: 600; letter-spacing: .02em; }
 .route-list { position: relative; list-style: none; padding: 0; margin: 0; }
@@ -118,7 +118,6 @@ h1 { font-family: Bahnschrift, "Segoe UI", system-ui, sans-serif; font-weight: 7
 .cover-note p { max-width: 55ch; margin: 0; }
 .cover-quote { color: var(--deep); font: 700 clamp(1.14rem, 1.7vw, 1.4rem)/1.25 Bahnschrift, "Segoe UI", system-ui, sans-serif; letter-spacing: -.02em; text-wrap: balance; }
 .cover-aside { margin-top: 10px !important; color: #526972; font: .82rem/1.45 var(--code); }
-.cover-aside::before { content: "↳ "; color: var(--amber); font-weight: 700; }
 .cover-byline { font-size: .86rem; line-height: 1.5; color: #536970; }
 .cover-byline p { margin: 0; }
 .cover-byline strong { display: block; font-family: Bahnschrift, "Segoe UI", sans-serif; font-size: 1.8rem; line-height: 1.1; color: var(--deep); }
@@ -137,6 +136,8 @@ h1 { font-family: Bahnschrift, "Segoe UI", system-ui, sans-serif; font-weight: 7
 .case-index small { display: block; margin-top: 2px; font: 600 .6rem var(--code); text-transform: uppercase; color: #60747b; }
 .case-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px 12px; font-size: 1.2rem; font-weight: 700; letter-spacing: -.015em; }
 .case-placement { padding: 2px 7px; border: 1px solid #d9ae7a; background: #f7e9d8; color: #824513; font: 700 .67rem var(--code); letter-spacing: 0; white-space: nowrap; }
+.case-placement--first { padding: 3px 9px; border-color: #ad781f; background: #f3cf72; color: #4c3108; box-shadow: 0 2px 0 #d6a543; }
+.case-placement--third { padding: 3px 9px; border-color: #a76b46; background: #e9c19e; color: #4c2d1c; box-shadow: 0 2px 0 #bf8962; }
 .case-detail { font-size: .8rem; color: var(--blue); font-weight: 700; white-space: nowrap; }
 .case-detail span { font-size: 1.1rem; padding-left: 6px; }
 @media (max-width: 1180px) {
@@ -150,9 +151,9 @@ h1 { font-family: Bahnschrift, "Segoe UI", system-ui, sans-serif; font-weight: 7
   .site-shell { display: block; }
   .route-rail { display: none; }
   .mobile-chrome { display: block; background: var(--deep); color: white; }
-  .mobile-brand { display: block; padding: 16px 20px 11px; color: white; text-decoration: none; font-family: Bahnschrift, "Segoe UI", sans-serif; font-size: 1.25rem; font-weight: 700; }
-  .mobile-brand span { color: #e7a35b; font-weight: 500; }
-  .mobile-brand small { color: #c4d6d4; font-size: .8rem; font-weight: 500; margin-left: 8px; }
+  .mobile-brand { padding: 15px 20px 13px; }
+  .mobile-brand .brand-title { font-size: 1.2rem; }
+  .mobile-brand .brand-credit { margin-top: 4px; font-size: .79rem; }
   .mobile-nav summary { display: flex; justify-content: space-between; gap: 10px; align-items: center; min-height: 48px; padding: 9px 20px; border-top: 1px solid #53717a; cursor: pointer; font-weight: 700; list-style: none; }
   .mobile-nav summary:hover { background: #284651; }
   .mobile-nav summary::-webkit-details-marker { display: none; }

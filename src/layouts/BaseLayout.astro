@@ -36,7 +36,8 @@ const current = entries.find((entry) => entry.slug === currentSlug);
       <aside class="route-rail" aria-label="Site navigation">
         <div class="rail-inner">
           <a class="brand" href={base} aria-label="TISC 2026 writeups overview">
-            <span class="brand-type" translate="no">TISC <span>26</span><small>Writeups</small></span>
+            <span class="brand-title" translate="no">TISC <span class="brand-year">26</span> Writeups</span>
+            <span class="brand-credit">by <strong>Shuce</strong></span>
           </a>
           <nav class="desktop-nav" aria-label="Challenges">
             <p class="nav-label">Challenge route</p>
@@ -53,7 +54,7 @@ const current = entries.find((entry) => entry.slug === currentSlug);
         </div>
       </aside>
       <div class="mobile-chrome">
-        <a class="mobile-brand" href={base}>TISC <span>26</span> <small>Writeups</small></a>
+        <a class="mobile-brand" href={base}><span class="brand-title" translate="no">TISC <span class="brand-year">26</span> Writeups</span><span class="brand-credit">by <strong>Shuce</strong></span></a>
         <details class="mobile-nav">
           <summary><span>{current ? `${current.label}: ${current.title}` : 'Browse challenges'}</span><span aria-hidden="true" class="chevron">⌄</span></summary>
           <nav aria-label="Challenges"><ol>

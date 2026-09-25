@@ -7,7 +7,7 @@ const base = import.meta.env.BASE_URL;
 <BaseLayout title="Challenge archive" description="Eleven TISC 2026 challenge writeups with evidence and selected solve artifacts.">
   <main id="main" class="overview">
     <header class="page-head overview-head">
-      <p class="kicker cover-rankings">{entries.filter((entry) => entry.placement).map((entry) => `${entry.placement} · ${entry.title}`).join('  /  ')}</p>
+      <p class="kicker cover-rankings">{cover.ranking}</p>
       <h1>TISC <span>2026</span><br />{' '}Writeups<span class="cover-period">.</span></h1>
       <div class="cover-bottom">
         <blockquote class="cover-note">
@@ -30,7 +30,7 @@ const base = import.meta.env.BASE_URL;
         {entries.map((entry) => <li>
           <a href={`${base}challenges/${entry.slug}/`}>
             <span class="case-index">{entry.marker}<small>{entry.level === null ? 'Special' : 'Level'}</small></span>
-            <span class="case-name">{entry.title}{entry.placement && <small class="case-placement">{entry.placement}</small>}</span>
+            <span class="case-name">{entry.title}{entry.placement && <small class={`case-placement${entry.placement === '1st place' ? ' case-placement--first' : entry.placement === '3rd place' ? ' case-placement--third' : ''}`}>{entry.placement}</small>}</span>
             <span class="case-detail">Read writeup <span aria-hidden="true">↗</span></span>
           </a>
         </li>)}
