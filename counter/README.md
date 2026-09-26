@@ -1,6 +1,6 @@
 # Writeup counters
 
-The site sends one view request when a writeup opens and offers a reversible like per browser. The Cloudflare Worker stores the counts in D1; its API accepts requests from the published GitHub Pages origin and local development. Browser IDs are random and kept in local storage for each challenge. They are not accounts, so clearing browser storage allows another like.
+The site sends a view request when a writeup opens and offers a reversible like per browser. The Cloudflare Worker stores the counts in D1 and counts each challenge once per browser tab session, even across reloads and navigation. Its API accepts requests from the published GitHub Pages origin and local development. Random session IDs live in session storage; separate random like IDs live in local storage for each challenge. They are not accounts, so clearing browser storage allows another like.
 
 The database and Worker are deployed separately from GitHub Pages. From the site repository root, after `npm ci` and `npx wrangler login`:
 

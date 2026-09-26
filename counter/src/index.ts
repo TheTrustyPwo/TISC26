@@ -39,7 +39,7 @@ function response(origin: string, body: object | null, status = 200): Response {
   });
 }
 
-async function readPayload(request: Request): Promise<{ slug: string; voterId: string } | null> {
+async function readPayload(request: Request): Promise<{ slug: string; voterId: string; sessionId: string } | null> {
   const contentLength = Number(request.headers.get('Content-Length'));
   if (Number.isFinite(contentLength) && contentLength > 256) return null;
   const raw = await request.text();
@@ -48,7 +48,9 @@ async function readPayload(request: Request): Promise<{ slug: string; voterId: s
     const body = JSON.parse(raw);
     if (typeof body?.slug !== 'string' || !slugs.has(body.slug)) return null;
     if (typeof body?.voterId !== 'string' || !voterPattern.test(body.voterId)) return null;
-    return body;
+    if (body.sessionId !== undefined && (typeof body.sessionId !== 'string' || !voterPattern.test(body.sessionId))) return null;
+    // Keep older published clients working until GitHub Pages finishes deploying.
+    return { slug: body.slug, voterId: body.voterId, sessionId: body.sessionId ?? `legacy:${body.voterId}` };
   } catch {
     return null;
   }
@@ -75,11 +77,11 @@ export default {
     }
     const payload = await readPayload(request);
     if (!payload) return response(origin, { error: 'Invalid challenge or browser ID' }, 400);
-    const { slug, voterId } = payload;
+    const { slug, voterId, sessionId } = payload;
 
     try {
       if (action === '/view') {
-        await env.DB.prepare('INSERT INTO challenge_counts (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1').bind(slug).run();
+        await env.DB.prepare('INSERT OR IGNORE INTO challenge_views (slug, session_id) VALUES (?, ?)').bind(slug, sessionId).run();
       } else if (action === '/like') {
         await env.DB.prepare('INSERT OR IGNORE INTO challenge_likes (slug, voter_id) VALUES (?, ?)').bind(slug, voterId).run();
       } else if (action === '/unlike') {
