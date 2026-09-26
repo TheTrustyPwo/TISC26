@@ -66,20 +66,12 @@ const counterConfigured = Boolean(import.meta.env.PUBLIC_COUNTER_API_URL);
     const status = counter.querySelector<HTMLElement>('[data-counter-status]')!;
     let saving = false;
     const storageKey = `tisc26-like-id:${slug}`;
-    const sessionKey = 'tisc26-view-session';
     let voterId: string;
-    let sessionId: string;
     try {
       voterId = localStorage.getItem(storageKey) || crypto.randomUUID();
       localStorage.setItem(storageKey, voterId);
     } catch {
       voterId = crypto.randomUUID();
-    }
-    try {
-      sessionId = sessionStorage.getItem(sessionKey) || crypto.randomUUID();
-      sessionStorage.setItem(sessionKey, sessionId);
-    } catch {
-      sessionId = crypto.randomUUID();
     }
 
     type Counts = { views: number; likes: number; liked: boolean };
@@ -90,7 +82,7 @@ const counterConfigured = Boolean(import.meta.env.PUBLIC_COUNTER_API_URL);
         credentials: 'omit',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, voterId, sessionId }),
+        body: JSON.stringify({ slug, voterId }),
       });
       if (!response.ok) throw new Error(`Counter request failed: ${response.status}`);
       const data: Counts = await response.json();
