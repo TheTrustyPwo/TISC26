@@ -33,6 +33,7 @@ jobs:
         env:
           SITE_URL: https://${{ github.repository_owner }}.github.io
           SITE_BASE: /${{ github.event.repository.name }}/
+          PUBLIC_COUNTER_API_URL: https://tisc26-counters.tisc26-writeups.workers.dev
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

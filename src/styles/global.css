@@ -54,6 +54,18 @@ h1, h2, h3 { color: var(--deep); }
 h2, h3 { text-wrap: balance; }
 h1 { font-family: Bahnschrift, "Segoe UI", system-ui, sans-serif; font-weight: 700; letter-spacing: -.045em; line-height: 1.02; }
 .report-head h1 { max-width: 18ch; font-size: clamp(2.8rem, 5.2vw, 5.3rem); margin: 0; text-wrap: balance; }
+.report-counts { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 24px; font-size: .85rem; }
+.view-count { margin: 0; color: #526972; font-variant-numeric: tabular-nums; }
+.view-count span { color: var(--deep); font-weight: 700; }
+.like-button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 12px; border: 1px solid #9eb6bd; border-radius: 3px; background: #fff; color: var(--deep); font: 700 .84rem "Segoe UI", Aptos, system-ui, sans-serif; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: rgba(40, 93, 154, .17); }
+.like-button:hover:not(:disabled) { border-color: var(--blue); background: var(--mist); }
+.like-button[aria-pressed="true"] { border-color: #af705d; background: #f8eae4; color: #733b2d; }
+.like-button:disabled { cursor: wait; opacity: .7; }
+.like-button[aria-busy="true"] { cursor: progress; }
+.like-symbol { font-size: 1.2rem; line-height: 1; }
+.like-total { min-width: 1.5ch; padding-left: 8px; margin-left: 2px; border-left: 1px solid currentColor; font-variant-numeric: tabular-nums; }
+.counter-status { color: #8c4226; font-size: .8rem; }
+.counter-status:empty { display: none; }
 .report-layout { display: grid; grid-template-columns: minmax(0, 76ch) minmax(170px, 225px); grid-template-areas: "article toc"; column-gap: clamp(34px, 4vw, 80px); align-items: start; padding-top: 34px; }
 .is-special .markdown > p, .is-special .markdown > ul, .is-special .markdown > ol, .is-special .markdown > pre, .is-special .markdown > blockquote { max-width: 76ch; }
 .toc { grid-area: toc; position: sticky; top: 26px; max-height: calc(100vh - 52px); overflow: auto; border-left: 1px solid var(--rule); padding: 4px 0 4px 18px; }

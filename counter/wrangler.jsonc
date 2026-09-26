@@ -1,0 +1,13 @@
+{
+	"$schema": "../node_modules/wrangler/config-schema.json",
+	"name": "tisc26-counters",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-26",
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "tisc26-counters",
+			"database_id": "5866ce7c-f080-40ed-81b4-c38cc27db5a3"
+		}
+	]
+}

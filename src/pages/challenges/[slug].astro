@@ -11,12 +11,22 @@ const base = import.meta.env.BASE_URL;
 const previous = entries[entry.order - 2];
 const next = entries[entry.order];
 const route = (slug: string) => `${base}challenges/${slug}/`;
+const counterConfigured = Boolean(import.meta.env.PUBLIC_COUNTER_API_URL);
 ---
 <BaseLayout title={entry.title} description={`Technical writeup and selected artifacts for ${entry.title}, a TISC 2026 challenge.`} currentSlug={entry.slug}>
   <main id="main" class:list={['report-page', { 'is-special': entry.level === null }]}>
     <header class="page-head report-head">
       <p class="kicker">{entry.label}</p>
       <h1>{entry.title}</h1>
+      {counterConfigured && <div class="report-counts" data-counter data-slug={entry.slug}>
+        <p class="view-count"><span data-views>—</span> <span data-view-label>views</span></p>
+        <button class="like-button" type="button" aria-pressed="false" disabled>
+          <span class="like-symbol" aria-hidden="true">♡</span>
+          <span data-like-label>Like</span>
+          <span class="like-total" data-likes>—</span>
+        </button>
+        <span class="counter-status" role="status" data-counter-status></span>
+      </div>}
     </header>
     <div class="report-layout">
       {entry.headings.length > 2 && <nav class="toc" aria-label="On this page">
@@ -43,6 +53,83 @@ const route = (slug: string) => `${base}challenges/${slug}/`;
   </main>
 </BaseLayout>
 <script>
+  const counter = document.querySelector<HTMLElement>('[data-counter]');
+  const api = import.meta.env.PUBLIC_COUNTER_API_URL;
+  if (counter && api) {
+    const slug = counter.dataset.slug;
+    const views = counter.querySelector<HTMLElement>('[data-views]')!;
+    const viewLabel = counter.querySelector<HTMLElement>('[data-view-label]')!;
+    const likes = counter.querySelector<HTMLElement>('[data-likes]')!;
+    const label = counter.querySelector<HTMLElement>('[data-like-label]')!;
+    const symbol = counter.querySelector<HTMLElement>('.like-symbol')!;
+    const button = counter.querySelector<HTMLButtonElement>('.like-button')!;
+    const status = counter.querySelector<HTMLElement>('[data-counter-status]')!;
+    let saving = false;
+    const storageKey = `tisc26-like-id:${slug}`;
+    let voterId: string;
+    try {
+      voterId = localStorage.getItem(storageKey) || crypto.randomUUID();
+      localStorage.setItem(storageKey, voterId);
+    } catch {
+      voterId = crypto.randomUUID();
+    }
+
+    type Counts = { views: number; likes: number; liked: boolean };
+    async function send(action: string): Promise<Counts> {
+      const response = await fetch(`${api}/${action}`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, voterId }),
+      });
+      if (!response.ok) throw new Error(`Counter request failed: ${response.status}`);
+      const data: Counts = await response.json();
+      if (!Number.isSafeInteger(data.views) || !Number.isSafeInteger(data.likes) || typeof data.liked !== 'boolean') {
+        throw new Error('Invalid counter response');
+      }
+      return data;
+    }
+
+    function render(data: Counts) {
+      views.textContent = data.views.toLocaleString();
+      viewLabel.textContent = data.views === 1 ? 'view' : 'views';
+      likes.textContent = data.likes.toLocaleString();
+      label.textContent = data.liked ? 'Liked' : 'Like';
+      symbol.textContent = data.liked ? '♥' : '♡';
+      button.setAttribute('aria-pressed', String(data.liked));
+      button.disabled = false;
+    }
+
+    void (async () => {
+      try {
+        render(await send('view'));
+      } catch {
+        try {
+          render(await send('state'));
+        } catch {
+          status.textContent = 'Counts are unavailable. Reload to try again.';
+        }
+      }
+    })();
+
+    button.addEventListener('click', async () => {
+      if (saving) return;
+      saving = true;
+      button.setAttribute('aria-busy', 'true');
+      status.textContent = '';
+      try {
+        render(await send(button.getAttribute('aria-pressed') === 'true' ? 'unlike' : 'like'));
+      } catch {
+        status.textContent = 'Could not save your like. Try again.';
+      } finally {
+        saving = false;
+        button.removeAttribute('aria-busy');
+      }
+    });
+  }
+
   window.addEventListener('message', (event) => {
     if (event.data?.type !== 'tisc-explainer-height') return;
     const frame = [...document.querySelectorAll<HTMLIFrameElement>('.explainer iframe')]
